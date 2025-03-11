@@ -1,4 +1,4 @@
-name: Build and Push to Docker Hub
+name: Docker CI/CD
 
 on:
   push:
@@ -6,9 +6,9 @@ on:
       - main
 
 jobs:
-  push_to_registry:
-    name: Push Docker image to Docker Hub
+  build-and-push:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -17,20 +17,10 @@ jobs:
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-<<<<<<< HEAD
       - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          tags: jayalakshmi143/docker-ci:latest
-
-=======
-      - name: Build Docker image
-        run: docker build -t jayalakshmi143/docker-ci:latest .
-
-      - name: Push Docker image to Docker Hub
-        run: docker push jayalakshmi143/docker-ci:latest
->>>>>>> 63a0903 (Initial commit with CI/CD setup)
+        run: |
+          export DOCKER_BUILDKIT=1
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/docker-ci:latest .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/docker-ci:latest
