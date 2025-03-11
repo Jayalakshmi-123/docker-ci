@@ -19,6 +19,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+<<<<<<< HEAD
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
@@ -26,3 +27,10 @@ jobs:
           push: true
           tags: jayalakshmi143/docker-ci:latest
 
+=======
+      - name: Build Docker image
+        run: docker build -t jayalakshmi143/docker-ci:latest .
+
+      - name: Push Docker image to Docker Hub
+        run: docker push jayalakshmi143/docker-ci:latest
+>>>>>>> 63a0903 (Initial commit with CI/CD setup)

@@ -4,4 +4,4 @@ app = FastAPI()
 
 @app.get("/")
 def read_root():
-    return {"message": "Hello, FastAPI is running on port 8084!"}
+    return {"message": "Hello, FastAPI with Docker CI/CD!"}
