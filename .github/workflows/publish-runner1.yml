@@ -1,4 +1,4 @@
-name: Build and Push (Runner 1)
+name: Develop Branch CI/CD (Runner 1)
 
 on:
   push:
@@ -7,17 +7,17 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: [self-hosted, runner-1]  # Runs only on runner-1
+    runs-on: [self-hosted, runner-1]  # Runs on runner-1
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Log in to Docker Hub
+      - name: Log in to DockerHub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Build Docker image
-        run: docker build -t my-docker-image-runner1:latest .
+        run: docker build -t mydockerhub/my-docker-image-runner1:latest .
 
       - name: Push Docker image
-        run: docker push my-docker-image-runner1:latest
+        run: docker push mydockerhub/my-docker-image-runner1:latest
