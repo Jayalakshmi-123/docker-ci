@@ -1,0 +1,23 @@
+name: Build and Push (Runner 2)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: [self-hosted, runner-2]  # Runs only on runner-2
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to DockerHub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Build Docker image
+        run: docker build -t my-docker-image-runner2:latest .
+
+      - name: Push Docker image
+        run: docker push my-docker-image-runner2:latest

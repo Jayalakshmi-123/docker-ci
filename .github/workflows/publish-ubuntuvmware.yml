@@ -1,0 +1,23 @@
+name: Build and Push (Ubuntuvmware)
+
+on:
+  push:
+    branches:
+      - develop  # Runs only when pushing to 'develop' branch
+
+jobs:
+  build-and-push:
+    runs-on: [self-hosted, ubuntuvmware]  # Runs only on ubuntuvmware
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to DockerHub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Build Docker image
+        run: docker build -t my-docker-image-ubuntuvmware:latest .
+
+      - name: Push Docker image
+        run: docker push my-docker-image-ubuntuvmware:latest
